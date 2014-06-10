@@ -24,11 +24,18 @@
 
 #include "SerialPort.h"
 
-#include "android/log.h"
+
 static const char *TAG="serial_port";
+#ifdef __ANDROID__
+#include "android/log.h"
 #define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  TAG, fmt, ##args)
 #define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, TAG, fmt, ##args)
 #define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, ##args)
+#else
+#define LOGI(fmt, args...) printf(fmt, ##args);printf("\n");
+#define LOGD(fmt, args...) printf(fmt, ##args);printf("\n");
+#define LOGE(fmt, args...) printf(fmt, ##args);printf("\n");
+#endif
 
 static speed_t getBaudrate(jint baudrate)
 {
