@@ -25,8 +25,8 @@
 #include "SerialPort.h"
 
 
-static const char *TAG="serial_port";
 #ifdef __ANDROID__
+static const char *TAG="serial_port";
 #include "android/log.h"
 #define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  TAG, fmt, ##args)
 #define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, TAG, fmt, ##args)
