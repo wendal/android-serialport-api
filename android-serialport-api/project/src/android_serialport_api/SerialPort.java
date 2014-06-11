@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.util.Log;
-
 public class SerialPort {
 
 	private static final String TAG = "SerialPort";
@@ -60,8 +58,7 @@ public class SerialPort {
 
 		mFd = open(device.getAbsolutePath(), baudrate, flags);
 		if (mFd == null) {
-			Log.e(TAG, "native open returns null");
-			throw new IOException();
+			throw new IOException("native open returns null " + device);
 		}
 		mFileInputStream = new FileInputStream(mFd);
 		mFileOutputStream = new FileOutputStream(mFd);
