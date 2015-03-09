@@ -143,7 +143,11 @@ JNIEXPORT jobject JNICALL Java_android_1serialport_1api_SerialPort_open
 	{
 		jclass cFileDescriptor = (*env)->FindClass(env, "java/io/FileDescriptor");
 		jmethodID iFileDescriptor = (*env)->GetMethodID(env, cFileDescriptor, "<init>", "()V");
+#ifdef __ANDROID__
 		jfieldID descriptorID = (*env)->GetFieldID(env, cFileDescriptor, "descriptor", "I");
+#else
+        	jfieldID descriptorID = (*env)->GetFieldID(env, cFileDescriptor, "fd", "I");
+#endif
 		mFileDescriptor = (*env)->NewObject(env, cFileDescriptor, iFileDescriptor);
 		(*env)->SetIntField(env, mFileDescriptor, descriptorID, (jint)fd);
 	}
@@ -163,8 +167,11 @@ JNIEXPORT void JNICALL Java_android_1serialport_1api_SerialPort_close
 	jclass FileDescriptorClass = (*env)->FindClass(env, "java/io/FileDescriptor");
 
 	jfieldID mFdID = (*env)->GetFieldID(env, SerialPortClass, "mFd", "Ljava/io/FileDescriptor;");
-	jfieldID descriptorID = (*env)->GetFieldID(env, FileDescriptorClass, "descriptor", "I");
-
+#ifdef __ANDROID__
+        jfieldID descriptorID = (*env)->GetFieldID(env, FileDescriptorClass, "descriptor", "I");
+#else
+        jfieldID descriptorID = (*env)->GetFieldID(env, FileDescriptorClass, "fd", "I");
+#endif
 	jobject mFd = (*env)->GetObjectField(env, thiz, mFdID);
 	jint descriptor = (*env)->GetIntField(env, mFd, descriptorID);
 
